@@ -1,0 +1,162 @@
+{
+  "productos": [
+    {
+      "titulo": "Catan",
+      "id": "1",
+      "detalle": "Un juego de estrategia donde los jugadores construyen colonias y ciudades en una isla ficticia.",
+      "precio": 30.99,
+      "Categoria": "estrategia",
+      "img": "https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/ncom/software/switch/70010000068417/f75365bce6cbfbf0e1678f1ce87fe8631234b505149e22a93464120bd8f9b98a",
+      "stock": 10,
+      "marca": "Catan Studio",
+      "dificultad": "Intermedio"
+    },
+    {
+      "titulo": "Risk",
+      "id": "2",
+      "detalle": "Un juego de guerra donde los jugadores conquistan territorios y luchan por el dominio mundial.",
+      "precio": 25.5,
+      "Categoria": "estrategia",
+      "img": "https://www.codeproject.com/KB/showcase/887542/risk1.jpg",
+      "stock": 8,
+      "marca": "Hasbro",
+      "dificultad": "Intermedio"
+    },
+    {
+      "titulo": "Scrabble",
+      "id": "3",
+      "detalle": "Un juego de palabras donde los jugadores forman palabras en un tablero utilizando fichas con letras.",
+      "precio": 19.99,
+      "Categoria": "Palabras",
+      "img": "https://m.media-amazon.com/images/I/71nLrAXVDzL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
+      "stock": 15,
+      "marca": "Hasbro",
+      "dificultad": "Fácil"
+    },
+    {
+      "titulo": "Monopoly",
+      "id": "4",
+      "detalle": "Un juego de negocios donde los jugadores compran, venden e intercambian propiedades para acumular riquezas.",
+      "precio": 29.75,
+      "Categoria": "estrategia",
+      "img": "https://www.hasbro.com/common/productimages/en_US/7EABAF9750569047F5778F4663C79E75/ee616120d6a46a0dc71d39ce6857290414129b14.jpg",
+      "stock": 12,
+      "marca": "Hasbro",
+      "dificultad": "Facil"
+    },
+    {
+      "titulo": "Ajedrez",
+      "id": "5",
+      "detalle": "Un juego de mesa milenario de estrategia donde los jugadores mueven piezas en un tablero para capturar al rey oponente.",
+      "precio": 15.99,
+      "Categoria": "estrategia",
+      "img": "https://carrefourar.vtexassets.com/arquivos/ids/156155/7794635020504_02.jpg?v=637466901959200000",
+      "stock": 20,
+      "marca": "Varios",
+      "dificultad": "Dificil"
+    },
+    {
+      "titulo": "Ticket to Ride",
+      "id": "6",
+      "detalle": "Un juego de aventura ferroviaria donde los jugadores construyen rutas de tren a través de América del Norte.",
+      "precio": 34.95,
+      "Categoria": "estrategia",
+      "img": "https://m.media-amazon.com/images/I/91YNJM4oyhL.jpg",
+      "stock": 7,
+      "marca": "Days of Wonder",
+      "dificultad": "Intermedio"
+    },
+    {
+      "titulo": "Puerto Rico",
+      "id": "7",
+      "detalle": "Un juego de gestión de recursos y desarrollo de colonias donde los jugadores compiten por el control de la isla de Puerto Rico.",
+      "precio": 39.99,
+      "Categoria": "estrategia",
+      "img": "https://m.media-amazon.com/images/I/71-aucUqWiL.jpg",
+      "stock": 5,
+      "marca": "Rio Grande Games",
+      "dificultad": "Intermedio"
+    },
+    {
+      "titulo": "Terraforming Mars",
+      "id": "8",
+      "detalle": "Un juego de construcción y gestión de recursos donde los jugadores intentan terraformar el planeta Marte.",
+      "precio": 49.99,
+      "Categoria": "estrategia",
+      "img": "https://m.media-amazon.com/images/I/91x5bb0PyaL.jpg",
+      "stock": 9,
+      "marca": "Stronghold Games",
+      "dificultad": "Dificil"
+    },
+    {
+      "titulo": "7 Wonders",
+      "id": "9",
+      "detalle": "Un juego de construcción de civilizaciones donde los jugadores construyen maravillas y desarrollan su civilización a lo largo de tres eras.",
+      "precio": 44.95,
+      "Categoria": "estrategia",
+      "img": "https://i.ebayimg.com/images/g/pGgAAOSwhuRkMEC5/s-l1200.webp",
+      "stock": 6,
+      "marca": "Repos Production",
+      "dificultad": "Intermedio"
+    },
+    {
+      "titulo": "Dominion",
+      "id": "10",
+      "detalle": "Un juego de construcción de mazos donde los jugadores reclutan cartas para construir un reino más poderoso que el de sus oponentes.",
+      "precio": 29.99,
+      "Categoria": "cartas",
+      "img": "https://devirinvestments.s3.eu-west-1.amazonaws.com/img/catalog/product/8436017227048-1200-face3d-copy.jpg",
+      "stock": 8,
+      "marca": "Rio Grande Games",
+      "dificultad": "Intermedio"
+    }
+  ],
+  "carritos": [
+    {
+      "id": "1",
+      "usuario": 3,
+      "producto": 2,
+      "cantidad": 6,
+      "comprado": false
+    },
+    {
+      "id": "1",
+      "usuario": "3",
+      "producto": "3",
+      "cantidad": 3,
+      "comprado": false
+    },
+    {
+      "id": "1",
+      "usuario": "3",
+      "producto": "3",
+      "cantidad": 1,
+      "comprado": false
+    },
+    {
+      "id": 1,
+      "usuario": "3",
+      "producto": "1",
+      "cantidad": 3,
+      "comprado": false
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "1",
+      "usuario": "usuario 1",
+      "email": "correo1@uade.edu.ar",
+      "password": "1234",
+      "nombre": "nombre 1",
+      "apellido": "apellido 1"
+    },
+    {
+      "id": "3",
+      "usuario": "Alejandro",
+      "email": "alejandro@uade.edu.ar",
+      "password": "123",
+      "nombre": "Alejandro",
+      "apellido": "Guerrero"
+    }
+  ]
+}
