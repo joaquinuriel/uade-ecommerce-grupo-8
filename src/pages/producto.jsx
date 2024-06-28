@@ -1,31 +1,68 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { Box, Button, Container, Grid, Input, Typography } from "@mui/material";
-import { alignProperty } from "@mui/material/styles/cssUtils.js";
+import { ofetch } from "ofetch";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
 
 const Producto = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState({
-    titulo: "",
-    id: "",
-    detalle: "",
-    precio: "",
-    Categoria: "",
-    img: "",
-    stock: "",
-    marca: "",
-    dificultad: "",
-  });
+  // const [product, setProduct] = useState({
+  //   titulo: "",
+  //   id: "",
+  //   detalle: "",
+  //   precio: "",
+  //   Categoria: "",
+  //   img: "",
+  //   stock: "",
+  //   marca: "",
+  //   dificultad: "",
+  // });
   const [cantidad, setCantidad] = useState(1);
   const [idUsuario, setIdUsuario] = useState(null);
   const [userOk, setUserOk] = useState("");
 
+  const {
+    data: product = {
+      titulo: "",
+      id: "",
+      detalle: "",
+      precio: "",
+      Categoria: "",
+      img: "",
+      stock: "",
+      marca: "",
+      dificultad: "",
+    },
+    mutate,
+  } = useSWR(`/productos/${id}`);
+
+  const { data: wishlist } = useSWR(`/wishlist`);
+
+  const esFavorito = wishlist?.content?.some((item) => item.id === product.id);
+
+  const { trigger, isMutating } = useSWRMutation(
+    `/wishlist`,
+    (key) =>
+      ofetch(key, {
+        method: "POST",
+        params: {
+          id: product.productId,
+          remove: esFavorito,
+        },
+      }),
+    {
+      onSuccess: () => mutate(),
+      onError: (error) => console.error("Error updating wishlist:", error),
+    }
+  );
+
   // Lo usamos para acceder a los datos del producto mediante el param
-  useEffect(() => {
-    fetch(`http://localhost:3000/productos?id=${id}`)
-      .then((response) => response.json())
-      .then((data) => setProduct(data[0]));
-  }, []);
+  // useEffect(() => {
+  //   fetch(`http://localhost:3000/productos/${id}`)
+  //     .then((response) => response.json())
+  //     .then((data) => setProduct(data[0]));
+  // }, [id]);
 
   // Función para restar unidades
   const removeProduct = () => {
@@ -132,17 +169,13 @@ const Producto = () => {
 
   return (
     <Grid>
-      <Container sx={{height:'2000px',color:'black' }}>
-        <Box sx={{ textAlign: "left",}}>
+      <Container sx={{ height: "2000px", color: "black" }}>
+        <Box sx={{ textAlign: "left" }}>
           <Typography variant="h6">{product.Categoria}</Typography>
         </Box>
         <Grid container>
           <Grid item xs={12} sm={6}>
-            <Container
-              component="img"
-              src={product.img}
-              alt={product.titulo}
-            />
+            <Container component="img" src={product.img} alt={product.titulo} />
           </Grid>
           <Grid item xs={12} sm={6} alignItems="center">
             <Typography variant="h4" sx={{ textAlign: "left" }}>
@@ -179,6 +212,9 @@ const Producto = () => {
                 id="id-add-to-cart"
               >
                 Agregar al carrito
+              </Button>
+              <Button disabled={isMutating} onClick={() => trigger()}>
+                {esFavorito ? "Quitar de favoritos" : "Agregar a favoritos"}
               </Button>
             </Container>
           </Grid>
