@@ -26,7 +26,10 @@ export default function Login() {
         console.log("Logged in:", data);
         return navigate("/");
       },
-      onError: (error) => console.error("Error logging in:", error),
+      onError: (error) => {
+        alert("Hubo un error, revisa tus credenciales");
+        console.error("Error logging in:", error);
+      },
     }
   );
 

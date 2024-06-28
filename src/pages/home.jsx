@@ -68,7 +68,7 @@ const Home = () => {
               to={`/producto/${producto.productId}`}
               key={producto.productId}
             >
-              <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Grid item xs={12} sm={6} md={4} xl={3}>
                 <Card>
                   <CardMedia
                     component="img"

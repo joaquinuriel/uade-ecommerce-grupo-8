@@ -1,6 +1,7 @@
 import { Box, Button, Container, Grid, Input, Typography } from "@mui/material";
+import { jwtDecode } from "jwt-decode";
 import { ofetch } from "ofetch";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
@@ -34,10 +35,18 @@ const Producto = () => {
       marca: "",
       dificultad: "",
     },
-    mutate,
   } = useSWR(`/productos/${id}`);
 
-  const { data: wishlist } = useSWR(`/wishlist`);
+  const email = useMemo(() => {
+    if (!document.cookie) return null;
+    const data = jwtDecode(document.cookie);
+    console.log("cookie:", data); // Debug
+    return data.sub;
+  }, []);
+
+  const { data: wishlist, mutate: reloadWishlist } = useSWR(
+    `/wishlist?email=${email}`
+  );
 
   const esFavorito = wishlist?.content?.some((item) => item.id === product.id);
 
@@ -45,14 +54,16 @@ const Producto = () => {
     `/wishlist`,
     (key) =>
       ofetch(key, {
+        baseURL: "http://localhost:3000",
         method: "POST",
         params: {
-          id: product.productId,
+          email,
+          productId: product.productId,
           remove: esFavorito,
         },
       }),
     {
-      onSuccess: () => mutate(),
+      onSuccess: () => reloadWishlist(),
       onError: (error) => console.error("Error updating wishlist:", error),
     }
   );
@@ -175,29 +186,33 @@ const Producto = () => {
         </Box>
         <Grid container>
           <Grid item xs={12} sm={6}>
-            <Container component="img" src={product.img} alt={product.titulo} />
+            <Container
+              component="img"
+              src={product.img}
+              alt={product.productName}
+            />
           </Grid>
           <Grid item xs={12} sm={6} alignItems="center">
             <Typography variant="h4" sx={{ textAlign: "left" }}>
-              {product.titulo}
+              {product.productName}
             </Typography>
             <Typography variant="body1" sx={{ textAlign: "left" }}>
-              {product.detalle}
+              {product.productDescription}
             </Typography>
             <Typography variant="h5" sx={{ textAlign: "left" }}>
-              AR$ {product.precio}
+              AR$ {product.productPrice}
             </Typography>
             <Typography variant="body2" sx={{ textAlign: "left" }}>
-              Stock: {product.stock}
+              Stock: {product.quantity}
             </Typography>
             <Container>
               <Button onClick={removeProduct}>-</Button>
-              <span id="id-cantidad">{cantidad}</span>
+              <span id="id-cantidad">{product.quantity}</span>
               <Button onClick={addProduct}>+</Button>
             </Container>
             <Container>
               <Typography variant="h6">
-                Total: AR$ {product.precio * cantidad}
+                Total: AR$ {product.productPrice * cantidad}
               </Typography>
               <Input
                 placeholder="Correo electrónico"

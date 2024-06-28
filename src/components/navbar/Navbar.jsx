@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { jwtDecode } from "jwt-decode";
 import { ofetch } from "ofetch";
 import { useMemo, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
@@ -127,22 +127,35 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const email = useMemo(() => {
+    if (!document.cookie) return null;
     const data = jwtDecode(document.cookie);
-    console.log(data); // Debug
-    return data.user_id;
+    console.log("cookie:", data); // Debug
+    return data.sub;
   }, []);
 
-  const { data: wishlist, isLoading } = useSWR("/wishlist", (key) => {
-    return ofetch(key, { params: { email } });
-  });
+  const {
+    data: wishlist,
+    isLoading,
+    mutate: reloadWishlist,
+  } = useSWR(`/wishlist?email=${email}`);
+
+  console.log("wishlist:", wishlist); // Debug
 
   const { trigger, isMutating } = useSWRMutation(
     "/wishlist",
-    (key) => {
-      return ofetch(key, { method: "POST" });
+    (key, { arg }) => {
+      return ofetch(key, {
+        baseURL: "http://localhost:3000",
+        method: "POST",
+        params: {
+          email,
+          productId: arg,
+          remove: wishlist?.content?.some((item) => item.id === arg),
+        },
+      });
     },
     {
-      onSuccess: () => console.log("Wishlist updated"),
+      onSuccess: () => reloadWishlist(),
       onError: (error) => console.error("Error updating wishlist:", error),
     }
   );
@@ -154,14 +167,17 @@ export default function Navbar() {
           <Typography variant="h6">Wishlist</Typography>
           <Stack>
             <Typography hidden={!isLoading}>Cargando...</Typography>
-            <Typography hidden={isLoading || wishlist.length}>
+            <Typography hidden={isLoading || wishlist?.content?.length}>
               Aun no tienes favoritos
             </Typography>
             {wishlist?.content?.map((item, index) => (
               <Typography key={index}>
+                <Link to={`/producto/${item.productId}`}>
+                  {item.productName}
+                </Link>
                 <IconButton
                   disabled={isMutating}
-                  onClick={() => trigger(item.id)}
+                  onClick={() => trigger(item.productId)}
                 >
                   <FavoriteIcon />
                 </IconButton>
@@ -235,7 +251,7 @@ export default function Navbar() {
             <IconButton onClick={() => setDrawerOpen(true)}>
               <FavoriteIcon />
             </IconButton>
-            <Button onClick={handleCartClick} color="inherit">
+            <Button hidden={!!email} onClick={handleCartClick} color="inherit">
               Login
             </Button>
           </Box>

@@ -35,9 +35,8 @@ export default function SignUp() {
       });
     },
     {
-      onSuccess: (data) => {
-        document.cookie = `token=${data.access_token}`;
-        return navigate("/");
+      onSuccess: () => {
+        return navigate("/login");
       },
       onError: (error) => console.error("Error signing up:", error),
     }
